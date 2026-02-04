@@ -63,6 +63,9 @@ class WrapMpc(WrapBase):
             act = self.safety_rollout.get_robot_command(
                 filtered_state, act_seq, shift_steps=shift_steps
             )
+            # 当 shift_steps > 1 时，只取最后一个时间步的动作
+            if shift_steps > 1:
+                act = act[-1]
         # print("Out: ", act_seq[0,:,0])
         self._init_act_seq = self._shift(act_seq, shift_steps=shift_steps)
         if self.compute_metrics:
